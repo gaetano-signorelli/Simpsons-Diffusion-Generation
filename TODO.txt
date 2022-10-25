@@ -1,5 +1,4 @@
 -Create modules for U-Net:
-  Down
   Up
   EMA
 

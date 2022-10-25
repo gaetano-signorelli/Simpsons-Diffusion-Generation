@@ -3,13 +3,13 @@ from tensorflow.keras import layers, activations
 
 class SelfAttentionLayer(layers.Layer):
 
-    def __init__(self, shape, n_heads):
+    def __init__(self, input_shape, n_heads):
 
         super(SelfAttentionLayer, self).__init__()
 
-        self.h = shape[1]
-        self.w = shape[2]
-        self.c = shape[3]
+        self.h = input_shape[1]
+        self.w = input_shape[2]
+        self.c = input_shape[3]
 
         self.self_attention_layer = layers.MultiHeadAttention(n_heads, self.c)
 
