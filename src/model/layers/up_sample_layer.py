@@ -9,16 +9,18 @@ class UpSampleLayer(layers.Layer):
 
         super(UpSampleLayer).__init__()
 
-        self.h = input_shape[1]
-        self.w = input_shape[2]
-        self.c = input_shape[3]
+        self.h = input_shape[1] * 2
+        self.w = input_shape[2] * 2
+        self.c = input_shape[3] * 2
+
+        self.out_c = out_channels
 
         self.up_sample_layer = layers.UpSampling2D(interpolation="bilinear")
 
         self.conv_block_1 = ConvolutionalBlockLayer(self.c, residual=True)
-        self.conv_block_2 = ConvolutionalBlockLayer(out_channels, mid_channels=self.c//2)
+        self.conv_block_2 = ConvolutionalBlockLayer(self.out_c, mid_channels=self.c//2)
 
-        self.dense_layer = layers.Dense(out_channels)
+        self.dense_layer = layers.Dense(self.out_c)
 
     @tf.function
     def call(self, inputs):
@@ -37,7 +39,7 @@ class UpSampleLayer(layers.Layer):
 
         t = tf.expand_dims(t, axis=-1)
         t = tf.tile(t, tf.constant([1,1,self.h*self.w]))
-        t = layers.Reshape((self.h, self.w, self.c))(t)
+        t = layers.Reshape((self.h, self.w, self.out_c))(t)
 
         output = x + t
 

@@ -9,16 +9,18 @@ class DownSampleLayer(layers.Layer):
 
         super(DownSampleLayer).__init__()
 
-        self.h = input_shape[1]
-        self.w = input_shape[2]
+        self.h = input_shape[1] // 2
+        self.w = input_shape[2] // 2
         self.c = input_shape[3]
+
+        self.out_c = out_channels
 
         self.max_pool_layer = layers.MaxPooling2D()
 
         self.conv_block_1 = ConvolutionalBlockLayer(self.c, residual=True)
-        self.conv_block_2 = ConvolutionalBlockLayer(out_channels)
+        self.conv_block_2 = ConvolutionalBlockLayer(self.out_c)
 
-        self.dense_layer = layers.Dense(out_channels)
+        self.dense_layer = layers.Dense(self.out_c)
 
     @tf.function
     def call(self, inputs):
@@ -35,7 +37,7 @@ class DownSampleLayer(layers.Layer):
 
         t = tf.expand_dims(t, axis=-1)
         t = tf.tile(t, tf.constant([1,1,self.h*self.w]))
-        t = layers.Reshape((self.h, self.w, self.c))(t)
+        t = layers.Reshape((self.h, self.w, self.out_c))(t)
 
         output = x + t
 

@@ -1,8 +1,4 @@
--Create modules for U-Net:
-  Up
-  EMA
-
--Create U-Net
+Add EMA
 
 -Create Diffusion network:
   Noise schedule
