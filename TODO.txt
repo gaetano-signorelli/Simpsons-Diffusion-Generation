@@ -1,0 +1,21 @@
+-Create modules for U-Net:
+  DoubleConv
+  Self-Attention
+  Down
+  Up
+  EMA
+
+-Create U-Net
+
+-Create Diffusion network:
+  Noise schedule
+  Sampling (reverse)
+  Train step
+
+-Download dataset
+
+-Add preprocessing
+
+-Set hyperparameters
+
+-Test, debug and train
