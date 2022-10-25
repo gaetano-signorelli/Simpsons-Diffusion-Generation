@@ -3,20 +3,20 @@ from tensorflow.keras import layers, activations
 
 from src.model.layers.conv_block_layer import ConvolutionalBlockLayer
 
-class DownSampleLayer(layers.Layer):
+class UpSampleLayer(layers.Layer):
 
     def __init__(self, input_shape, out_channels):
 
-        super(DownSampleLayer).__init__()
+        super(UpSampleLayer).__init__()
 
         self.h = input_shape[1]
         self.w = input_shape[2]
         self.c = input_shape[3]
 
-        self.max_pool_layer = layers.MaxPooling2D()
+        self.up_sample_layer = layers.UpSampling2D(interpolation="bilinear")
 
         self.conv_block_1 = ConvolutionalBlockLayer(self.c, residual=True)
-        self.conv_block_2 = ConvolutionalBlockLayer(out_channels)
+        self.conv_block_2 = ConvolutionalBlockLayer(out_channels, mid_channels=self.c//2)
 
         self.dense_layer = layers.Dense(out_channels)
 
@@ -24,9 +24,11 @@ class DownSampleLayer(layers.Layer):
     def call(self, inputs):
 
         x = inputs[0]
-        t = inputs[1]
+        skip_x = inputs[1]
+        t = inputs[2]
 
-        x = self.max_pool_layer(x)
+        x = self.up_sample_layer(x)
+        x = layers.Concatenate()([skip_x, x])
         x = self.conv_block_1(x)
         x = self.conv_block_2(x)
 
