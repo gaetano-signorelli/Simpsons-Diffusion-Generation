@@ -1,5 +1,4 @@
 -Create modules for U-Net:
-  DoubleConv
   Self-Attention
   Down
   Up
@@ -19,3 +18,7 @@
 -Set hyperparameters
 
 -Test, debug and train
+
+-Refactor
+-Add comments
+-Remove pycache
