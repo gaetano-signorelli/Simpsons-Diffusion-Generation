@@ -1,7 +1,6 @@
 Add EMA
 
 -Create Diffusion network:
-  Sampling (reverse)
   Train step
 
 -Download dataset

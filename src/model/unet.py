@@ -52,22 +52,22 @@ class UNet(Model):
         t = self.positional_encoding_layer(t)
 
         x1 = self.conv_input(x)
-        x2 = self.down1(x1, t)
+        x2 = self.down1([x1, t])
         x2 = self.sa1(x2)
-        x3 = self.down2(x2, t)
+        x3 = self.down2([x2, t])
         x3 = self.sa2(x3)
-        x4 = self.down3(x3, t)
+        x4 = self.down3([x3, t])
         x4 = self.sa3(x4)
 
         x4 = self.conv_mid_1(x4)
         x4 = self.conv_mid_2(x4)
         x4 = self.conv_mid_3(x4)
 
-        x = self.up1(x4, x3, t)
+        x = self.up1([x4, x3, t])
         x = self.sa4(x)
-        x = self.up2(x, x2, t)
+        x = self.up2([x, x2, t])
         x = self.sa5(x)
-        x = self.up3(x, x1, t)
+        x = self.up3([x, x1, t])
         x = self.sa6(x)
 
         output = self.conv_output(x)
