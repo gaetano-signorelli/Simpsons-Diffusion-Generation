@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras import Model
+from tensorflow.keras import Model, losses
 from tqdm import tqdm
 
 from src.model.unet import UNet
@@ -19,6 +19,9 @@ class Diffusion(Model):
         self.beta, self.alpha, self.alpha_hat = self.get_linear_schedules(beta_start,
                                                                         beta_end,
                                                                         noise_steps)
+
+        self.mse = losses.MeanSquaredError()
+        self.loss_tracker = metrics.Mean(name="loss")
 
     def get_linear_schedules(self, start, end, steps):
 
@@ -76,9 +79,33 @@ class Diffusion(Model):
         x = (tf.clip_by_value(x, -1, 1) + 1) / 2
         x = x * 255
         x = tf.cast(x, tf.uint8)
-        
+
         return x
 
     @tf.function
-    def call(self, x):
-        pass
+    def call(self, inputs):
+        return self.unet_model(inputs)
+
+    @tf.function
+    def train_step(self, images):
+
+        t = tf.experimental.numpy.random.randint(low=1,
+                                                high=self.noise_steps,
+                                                size=images.shape[0])
+
+        with tf.GradientTape() as tape:
+
+            x_t, noise = self.noise_images(images, t)
+            predicted_noise = self.unet_model([x_t, t])
+            loss = self.mse(noise, predicted_noise)
+
+            loss = tf.math.reduce_mean(loss)
+
+        grads = tape.gradient(loss, self.trainable_weights)
+        self.optimizer.apply_gradients(zip(grads, self.trainable_weights))
+
+        self.loss_tracker.update_state(loss)
+
+        return {
+            "loss": self.loss_tracker.result(),
+        }
