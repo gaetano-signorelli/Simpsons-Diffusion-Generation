@@ -1,13 +1,14 @@
 Add EMA
 
 -Create Diffusion network:
-  Noise schedule
   Sampling (reverse)
   Train step
 
 -Download dataset
 
 -Add preprocessing
+
+-Load/Save model
 
 -Set hyperparameters
 
