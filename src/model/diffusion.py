@@ -96,7 +96,7 @@ class Diffusion(Model):
         with tf.GradientTape() as tape:
 
             x_t, noise = self.noise_images(images, t)
-            predicted_noise = self.unet_model([x_t, t])
+            predicted_noise = self([x_t, t])
             loss = self.mse(noise, predicted_noise)
 
             loss = tf.math.reduce_mean(loss)

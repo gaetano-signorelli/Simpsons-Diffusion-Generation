@@ -4,10 +4,6 @@
 
 -Add preprocessing
 
--Load/Save model
--Build model
--Save samples during training
-
 -Set hyperparameters
 
 -Test, debug and train
