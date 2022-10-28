@@ -120,6 +120,9 @@ class ModelHandler:
 
     def save_samples(self):
 
+        if self.verbose:
+            print("Generating samples...")
+
         samples = self.model.sample(N_SAMPLES)
 
         samples = samples.numpy()

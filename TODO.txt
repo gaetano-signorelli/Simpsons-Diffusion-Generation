@@ -1,9 +1,5 @@
 -Add EMA
 
--Download dataset
-
--Set hyperparameters
-
 -Test, debug and train
 
 -Refactor

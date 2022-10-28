@@ -26,12 +26,12 @@ if __name__ == '__main__':
                 color_mode="rgb",
                 batch_size=BATCH_SIZE,
                 image_size=IMAGE_RESIZE,
-                shuffle=True,
+                shuffle=False,
                 seed=None,
                 validation_split=None,
                 subset=None,
                 interpolation="bilinear",
-                follow_links=False,
+                follow_links=True,
                 crop_to_aspect_ratio=False,
             )
 
