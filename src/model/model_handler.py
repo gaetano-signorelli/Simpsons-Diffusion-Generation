@@ -127,7 +127,7 @@ class ModelHandler:
         for i, sample in enumerate(samples):
 
             image_result = Image.fromarray(sample, mode="RGB")
-            image_result.save(SAMPLES_PATH.format(i, self.current_step))
+            image_result.save(SAMPLES_PATH.format(self.current_step, 1))
 
         if self.verbose:
             print("Samples saved")

@@ -13,11 +13,11 @@ class SaveUpdateStepCallback(Callback):
 
         self.model_handler = model_handler
 
-    def on_train_batch_end(self, batch, logs=None):
+    def on_epoch_end(self, epoch, logs=None):
 
         self.model_handler.update_current_step()
 
-        if self.model_handler.current_step % STEPS_BEFORE_SAVE == 0:
+        if (epoch+1) % EPOCHS_BEFORE_SAVE == 0:
 
             if SAVE_MODEL:
                 self.model_handler.save_weights()
