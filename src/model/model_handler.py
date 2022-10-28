@@ -52,8 +52,10 @@ class ModelHandler:
     def initialize_model(self):
 
         image_inputs = Input(shape=self.input_shape)
+        times_inputs = Input(shape=(1,))
+        inputs = [image_inputs, times_inputs]
 
-        self.model(image_inputs)
+        self.model(inputs)
 
         if self.load_model:
             last_weights_path = self.get_weights()

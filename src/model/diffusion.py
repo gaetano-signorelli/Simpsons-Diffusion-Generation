@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.keras import Model, losses
+from tensorflow.keras import Model, losses, metrics
 from tqdm import tqdm
 
 from src.model.unet import UNet
@@ -9,9 +9,9 @@ class Diffusion(Model):
     def __init__(self, input_shape, n_heads, time_embedding_size,
                 beta_start, beta_end, noise_steps):
 
-        super(Diffusion).__init__()
+        super().__init__()
 
-        self.input_shape = input_shape
+        self.inp_shape = input_shape
         self.noise_steps = noise_steps
 
         self.unet_model = UNet(input_shape, n_heads, time_embedding_size)
@@ -57,7 +57,7 @@ class Diffusion(Model):
 
     def sample(self, n_images):
 
-        x = tf.random.normal([n_images, self.input_shape[0], self.input_shape[1], self.input_shape[2]])
+        x = tf.random.normal([n_images, self.inp_shape[0], self.inp_shape[1], self.inp_shape[2]])
 
         for i in tqdm(range(self.noise_steps, 0, -1)):
 

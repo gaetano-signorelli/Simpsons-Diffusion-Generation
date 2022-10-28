@@ -7,9 +7,9 @@ class SelfAttentionLayer(layers.Layer):
 
         super(SelfAttentionLayer, self).__init__()
 
-        self.h = input_shape[1]
-        self.w = input_shape[2]
-        self.c = input_shape[3]
+        self.h = input_shape[0]
+        self.w = input_shape[1]
+        self.c = input_shape[2]
 
         self.self_attention_layer = layers.MultiHeadAttention(n_heads, self.c)
 

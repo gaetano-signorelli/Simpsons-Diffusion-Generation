@@ -7,11 +7,11 @@ class UpSampleLayer(layers.Layer):
 
     def __init__(self, input_shape, out_channels):
 
-        super(UpSampleLayer).__init__()
+        super(UpSampleLayer, self).__init__()
 
-        self.h = input_shape[1] * 2
-        self.w = input_shape[2] * 2
-        self.c = input_shape[3] * 2
+        self.h = input_shape[0] * 2
+        self.w = input_shape[1] * 2
+        self.c = input_shape[2] * 2
 
         self.out_c = out_channels
 

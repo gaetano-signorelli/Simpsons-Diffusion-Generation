@@ -11,7 +11,7 @@ class UNet(Model):
 
     def __init__(self, input_shape, n_heads, time_embedding_size):
 
-        super(UNet).__init__()
+        super().__init__()
 
         self.h = input_shape[0]
         self.w = input_shape[1]
@@ -23,23 +23,23 @@ class UNet(Model):
 
         self.conv_input = ConvolutionalBlockLayer(64)
 
-        self.down1 = DownSampleLayer(input_shape=(self.h,self.w,64), 128)
-        self.sa1 = SelfAttentionLayer(input_shape=(self.h//2,self.w//2,128), n_heads)
-        self.down2 = DownSampleLayer(input_shape=(self.h//2,self.w//2,128), 256)
-        self.sa2 = SelfAttentionLayer(input_shape=(self.h//4,self.w//4,256), n_heads)
-        self.down3 = DownSampleLayer(input_shape=(self.h//4,self.w//4,256), 256)
-        self.sa3 = SelfAttentionLayer(input_shape=(self.h//8,self.w//8,256), n_heads)
+        self.down1 = DownSampleLayer((self.h,self.w,64), 128)
+        self.sa1 = SelfAttentionLayer((self.h//2,self.w//2,128), n_heads)
+        self.down2 = DownSampleLayer((self.h//2,self.w//2,128), 256)
+        self.sa2 = SelfAttentionLayer((self.h//4,self.w//4,256), n_heads)
+        self.down3 = DownSampleLayer((self.h//4,self.w//4,256), 256)
+        self.sa3 = SelfAttentionLayer((self.h//8,self.w//8,256), n_heads)
 
         self.conv_mid_1 = ConvolutionalBlockLayer(512)
         self.conv_mid_2 = ConvolutionalBlockLayer(512)
         self.conv_mid_3 = ConvolutionalBlockLayer(256)
 
-        self.up1 = UpSampleLayer(input_shape=(self.h//8,self.w//8,256), 128)
-        self.sa4 = SelfAttentionLayer(input_shape=(self.h//4,self.w//4,128), n_heads)
-        self.up2 = UpSampleLayer(input_shape=(self.h//4,self.w//4,128), 64)
-        self.sa5 = SelfAttentionLayer(input_shape=(self.h//2,self.w//2,64), n_heads)
-        self.up3 = UpSampleLayer(input_shape=(self.h//2,self.w//2,64), 64)
-        self.sa6 = SelfAttentionLayer(input_shape=(self.h,self.w,64), n_heads)
+        self.up1 = UpSampleLayer((self.h//8,self.w//8,256), 128)
+        self.sa4 = SelfAttentionLayer((self.h//4,self.w//4,128), n_heads)
+        self.up2 = UpSampleLayer((self.h//4,self.w//4,128), 64)
+        self.sa5 = SelfAttentionLayer((self.h//2,self.w//2,64), n_heads)
+        self.up3 = UpSampleLayer((self.h//2,self.w//2,64), 64)
+        self.sa6 = SelfAttentionLayer((self.h,self.w,64), n_heads)
 
         self.conv_output = layers.Conv2D(3, kernel_size=1)
 

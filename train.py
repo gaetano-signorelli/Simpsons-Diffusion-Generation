@@ -1,4 +1,5 @@
 import os
+import tensorflow as tf
 
 from src.model.callbacks import SaveUpdateStepCallback
 from src.model.model_handler import ModelHandler

@@ -5,25 +5,25 @@ class ConvolutionalBlockLayer(layers.Layer):
 
     def __init__(self, out_channels, mid_channels=None, residual=False):
 
-        super(ConvolutionalBlockLayer).__init__()
+        super(ConvolutionalBlockLayer, self).__init__()
 
         self.residual = residual
 
         if not mid_channels:
             mid_channels = out_channels
 
-        self.conv_layer_1 = layers.Conv2d(mid_channels,
+        self.conv_layer_1 = layers.Conv2D(mid_channels,
                                         kernel_size=3,
                                         padding="same",
                                         use_bias=False)
 
-        self.conv_layer_2 = layers.Conv2d(out_channels,
+        self.conv_layer_2 = layers.Conv2D(out_channels,
                                         kernel_size=3,
                                         padding="same",
                                         use_bias=False)
 
-        self.group_norm_layer_1 = layers.BatchNormalization(axis=(0,3))
-        self.group_norm_layer_2 = layers.BatchNormalization(axis=(0,3))
+        self.group_norm_layer_1 = layers.BatchNormalization(axis=-1)
+        self.group_norm_layer_2 = layers.BatchNormalization(axis=-1)
 
     @tf.function
     def call(self, x):
