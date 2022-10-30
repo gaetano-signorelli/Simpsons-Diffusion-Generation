@@ -65,7 +65,7 @@ class ModelHandler:
                 self.load_weights(last_weights_path)
                 if self.verbose:
                     print("Weights loaded")
-                    print("Restored backup from step {}".format(current_step))
+                    print("Restored backup from step {}".format(self.current_step))
 
             elif self.verbose:
                 print("WARNING: Weights not found: initializing model with random weights")
@@ -104,7 +104,7 @@ class ModelHandler:
 
         current_step = str(self.current_step).zfill(6)
 
-        np.save(UNET_WEIGHTS_PATH.format(self.current_step), weights)
+        np.save(UNET_WEIGHTS_PATH.format(current_step), weights)
 
         if self.verbose:
             print()
@@ -132,7 +132,7 @@ class ModelHandler:
         for i, sample in enumerate(samples):
 
             image_result = Image.fromarray(sample, mode="RGB")
-            image_result.save(SAMPLES_PATH.format(self.current_step, 1))
+            image_result.save(SAMPLES_PATH.format(self.current_step, i+1))
 
         if self.verbose:
             print("Samples saved")

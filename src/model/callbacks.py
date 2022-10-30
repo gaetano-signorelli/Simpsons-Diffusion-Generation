@@ -17,7 +17,7 @@ class SaveUpdateStepCallback(Callback):
 
         self.model_handler.update_current_step()
 
-        if (epoch+1) % EPOCHS_BEFORE_SAVE == 0:
+        if (self.model_handler.current_step) % EPOCHS_BEFORE_SAVE == 0:
 
             if SAVE_MODEL:
                 self.model_handler.save_weights()

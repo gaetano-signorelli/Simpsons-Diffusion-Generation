@@ -23,6 +23,14 @@ class Diffusion(Model):
         self.mse = losses.MeanSquaredError()
         self.loss_tracker = metrics.Mean(name="loss")
 
+    def get_network_weights(self):
+
+        return self.unet_model.get_weights()
+
+    def set_network_weights(self, weights):
+
+        self.unet_model.set_weights(weights)
+
     def get_linear_schedules(self, start, end, steps):
 
         beta = tf.linspace(start, end, steps)
@@ -35,7 +43,6 @@ class Diffusion(Model):
     def gather_and_expand(self, tensor, indices):
 
         gathered_tensor = tf.gather(tensor, indices)
-        gathered_tensor = tf.expand_dims(gathered_tensor, axis=-1)
         gathered_tensor = tf.expand_dims(gathered_tensor, axis=-1)
         gathered_tensor = tf.expand_dims(gathered_tensor, axis=-1)
 
@@ -59,16 +66,16 @@ class Diffusion(Model):
 
         x = tf.random.normal([n_images, self.inp_shape[0], self.inp_shape[1], self.inp_shape[2]])
 
-        for i in tqdm(range(self.noise_steps, 0, -1)):
+        for i in tqdm(range(self.noise_steps-1, -1, -1)):
 
-            t = tf.ones(n_images) * i
+            t = tf.ones((n_images,1),dtype=tf.dtypes.int32) * i
             predicted_noise = self.unet_model([x, t])
 
             alpha = self.gather_and_expand(self.alpha, t)
             alpha_hat = self.gather_and_expand(self.alpha_hat, t)
             beta = self.gather_and_expand(self.beta, t)
 
-            if i>1:
+            if i>0:
                 noise = tf.random.normal(x.shape)
 
             else:
@@ -76,7 +83,7 @@ class Diffusion(Model):
 
             x = 1.0 / tf.math.sqrt(alpha) * (x - ((1.0 - alpha) / (tf.math.sqrt(1 - alpha_hat))) * predicted_noise) + tf.math.sqrt(beta) * noise
 
-        x = (tf.clip_by_value(x, -1, 1) + 1) / 2
+        x = (tf.clip_by_value(x, -1.0, 1.0) + 1.0) / 2.0
         x = x * 255
         x = tf.cast(x, tf.uint8)
 
@@ -89,9 +96,9 @@ class Diffusion(Model):
     @tf.function
     def train_step(self, images):
 
-        t = tf.experimental.numpy.random.randint(low=1,
-                                                high=self.noise_steps,
-                                                size=images.shape[0])
+        t = tf.experimental.numpy.random.randint(low=0,
+                                                high=self.noise_steps-1,
+                                                size=(images.shape[0],1))
 
         with tf.GradientTape() as tape:
 
