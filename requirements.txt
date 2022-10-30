@@ -1,3 +1,4 @@
+tf-models-official
 tensorflow
 numpy
 pillow

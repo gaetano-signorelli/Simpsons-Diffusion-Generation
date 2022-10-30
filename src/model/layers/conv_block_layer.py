@@ -22,8 +22,8 @@ class ConvolutionalBlockLayer(layers.Layer):
                                         padding="same",
                                         use_bias=False)
 
-        self.group_norm_layer_1 = layers.BatchNormalization(axis=-1)
-        self.group_norm_layer_2 = layers.BatchNormalization(axis=-1)
+        self.group_norm_layer_1 = layers.LayerNormalization()
+        self.group_norm_layer_2 = layers.LayerNormalization()
 
     @tf.function
     def call(self, x):

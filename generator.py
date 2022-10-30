@@ -1,4 +1,6 @@
 import os
+import numpy as np
+from PIL import Image
 import argparse
 from src.model.model_handler import ModelHandler
 
@@ -36,7 +38,7 @@ if __name__ == '__main__':
 
     for i, sample in enumerate(samples):
 
-        save_path = os.path.join(path, "sample {}.jpg".format(i))
+        save_path = os.path.join(path, "sample {}.jpg".format(i+1))
 
         image_result = Image.fromarray(sample, mode="RGB")
         image_result.save(save_path)

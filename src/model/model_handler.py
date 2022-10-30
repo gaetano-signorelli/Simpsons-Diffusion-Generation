@@ -1,5 +1,6 @@
 import os
 import re
+import tensorflow_models as tfm
 import numpy as np
 from PIL import Image
 from tensorflow.keras.optimizers import Adam
@@ -72,6 +73,11 @@ class ModelHandler:
                 print("Ignore this warning if this is the first training or a test")
 
         self.optimizer = Adam(learning_rate=LEARNING_RATE)
+        self.optimizer = tfm.optimization.ExponentialMovingAverage(self.optimizer,
+                                                                average_decay=EMA_DECAY,
+                                                                start_step=EMA_START_STEP)
+
+        self.optimizer.shadow_copy(self.model)
 
         self.model.compile(self.optimizer, run_eagerly=RUN_EAGERLY)
 
