@@ -1,3 +1,5 @@
+-Fix EMA
+
 -Test, debug and train
 
 -Refactor

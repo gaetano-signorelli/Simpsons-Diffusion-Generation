@@ -28,7 +28,7 @@ if __name__ == '__main__':
                 color_mode="rgb",
                 batch_size=BATCH_SIZE,
                 image_size=IMAGE_RESIZE,
-                shuffle=False,
+                shuffle=True,
                 seed=None,
                 validation_split=None,
                 subset=None,

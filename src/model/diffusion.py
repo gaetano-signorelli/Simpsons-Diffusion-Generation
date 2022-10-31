@@ -83,8 +83,9 @@ class Diffusion(Model):
 
             x = 1.0 / tf.math.sqrt(alpha) * (x - ((1.0 - alpha) / (tf.math.sqrt(1 - alpha_hat))) * predicted_noise) + tf.math.sqrt(beta) * noise
 
-        x = (tf.clip_by_value(x, -1.0, 1.0) + 1.0) / 2.0
-        x = x * 255
+        x = tf.clip_by_value(x, 0.0, 1.0) *255
+        #x = (tf.clip_by_value(x, -1.0, 1.0) + 1.0) / 2.0
+        #x = x * 255
         x = tf.cast(x, tf.uint8)
 
         return x

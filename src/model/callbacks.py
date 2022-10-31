@@ -19,11 +19,7 @@ class SaveUpdateStepCallback(Callback):
 
         if (self.model_handler.current_step) % EPOCHS_BEFORE_SAVE == 0:
 
-            self.model_handler.optimizer.swap_weights()
-
             if SAVE_MODEL:
                 self.model_handler.save_weights()
 
             self.model_handler.save_samples()
-
-            self.model_handler.optimizer.swap_weights()

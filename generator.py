@@ -10,7 +10,7 @@ def parse_arguments():
 
     parser = argparse.ArgumentParser(description='Diffusion sampling generation')
     parser.add_argument('save_folder', type=str, help='Path to folder to save result in')
-    parser.add_argument('--n', type=int, help='Number of images to generate', default=4)
+    parser.add_argument('--n', type=int, help='Number of images to generate', default=8)
 
     args = parser.parse_args()
 
