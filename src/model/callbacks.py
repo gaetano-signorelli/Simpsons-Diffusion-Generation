@@ -15,6 +15,8 @@ class SaveUpdateStepCallback(Callback):
 
     def on_epoch_end(self, epoch, logs=None):
 
+        #Save weigths and sample from the model after specified number of steps
+
         self.model_handler.update_current_step()
 
         if (self.model_handler.current_step) % EPOCHS_BEFORE_SAVE == 0:

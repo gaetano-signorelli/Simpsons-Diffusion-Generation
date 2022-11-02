@@ -51,6 +51,8 @@ class Diffusion(Model):
     @tf.function
     def noise_images(self, x, timesteps):
 
+        #Produce noise version of a batch of images on given timesteps
+
         gathered_alpha_hat = self.gather_and_expand(self.alpha_hat, timesteps)
 
         sqrt_alpha_hat = tf.math.sqrt(gathered_alpha_hat)
@@ -63,6 +65,8 @@ class Diffusion(Model):
         return gaussian_noise, eps
 
     def sample(self, n_images):
+
+        #Generate n samples from the model
 
         x = tf.random.normal([n_images, self.inp_shape[0], self.inp_shape[1], self.inp_shape[2]])
 
@@ -84,8 +88,6 @@ class Diffusion(Model):
             x = 1.0 / tf.math.sqrt(alpha) * (x - ((1.0 - alpha) / (tf.math.sqrt(1 - alpha_hat))) * predicted_noise) + tf.math.sqrt(beta) * noise
 
         x = tf.clip_by_value(x, 0.0, 1.0) *255
-        #x = (tf.clip_by_value(x, -1.0, 1.0) + 1.0) / 2.0
-        #x = x * 255
         x = tf.cast(x, tf.uint8)
 
         return x

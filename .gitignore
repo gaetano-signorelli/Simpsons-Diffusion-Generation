@@ -1,3 +1,4 @@
-data
-weights
-results
+data/training dataset/simpson faces/*.png
+
+__pycache__
+*.pyc
